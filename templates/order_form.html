@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Objednávkový formulár</h1>
+
+  <form action="/order" method="post">
+    <label for="name">Meno:</label><br>
+    <input type="text" id="name" name="name"><br><br>
+
+    <label for="email">Email:</label><br>
+    <input type="email" id="email" name="email"><br><br>
+
+    <label for="address">Adresa:</label><br>
+    <input type="text" id="address" name="address"><br><br>
+    
+    <label for="product">Produkt:</label><br>
+    <input type="text" id="product" name="product"><br><br>
+
+    <label for="quantity">Množstvo:</label><br>
+    <input type="number" id="quantity" name="quantity" value="1"><br><br>
+
+    <button type="submit">Odoslať</button>
+  </form>
+</body>
+</html>
