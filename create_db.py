@@ -1,6 +1,6 @@
 import sqlite3
 
-def insert_orders(name, email, address, product, quantity):
+def create_db():
     conn = sqlite3.connect("orders.db")
     c = conn.cursor()
 
@@ -17,3 +17,5 @@ def insert_orders(name, email, address, product, quantity):
     
     conn.commit()
     conn.close()
+
+create_db()
