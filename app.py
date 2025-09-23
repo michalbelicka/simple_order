@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 import sqlite3
 
 app = Flask(__name__)
@@ -32,3 +32,20 @@ def order():
 
 app.run(debug=True)
 
+@app.route("/orders", methods=["GET"])
+def get_orders():
+    conn = sqlite3.connect("orders.db")
+    c = conn.cursor()
+    c.execute("SELECT * FROM orders")
+    rows = c.fetchall()
+    orders = [
+        {
+             "name": row[0],
+             "email": row[1],
+             "address": row[2],
+             "product": row[3],
+             "quantity": row[4]
+        }
+        for row in rows
+    ]
+    return jsonify(orders)
