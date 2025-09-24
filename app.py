@@ -59,15 +59,16 @@ def get_api_order():
 def get_orders():
     conn = sqlite3.connect("orders.db")
     c = conn.cursor()
-    c.execute("SELECT name, email, address, product, quantity FROM orders")
+    c.execute("SELECT id, name, email, address, product, quantity FROM orders")
     rows = c.fetchall()
     orders = [
         {
-             "name": row[0],
-             "email": row[1],
-             "address": row[2],
-             "product": row[3],
-             "quantity": row[4]
+             "id": row[0],
+             "name": row[1],
+             "email": row[2],
+             "address": row[3],
+             "product": row[4],
+             "quantity": row[5]
         }
         for row in rows
     ]

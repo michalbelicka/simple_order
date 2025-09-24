@@ -17,6 +17,7 @@ def test_post_orders():
     assert response.status_code == 200
     orders = response.json()
     for order in orders:
+        assert "id" in order
         assert "name" in order
         assert "email" in order
         assert "address" in order
@@ -29,8 +30,10 @@ def test_post_orders():
     assert orders[-1]["product"] == "TestProduct"
     assert orders[-1]["quantity"] == 2
 
-    assert isinstance(orders[-1]["name"], str)
-    assert isinstance(orders[-1]["email"], str)
-    assert isinstance(orders[-1]["address"], str)
-    assert isinstance(orders[-1]["product"], str)
-    assert isinstance(orders[-1]["quantity"], int)
+    for order in orders:
+        assert isinstance(order["id"], int)
+        assert isinstance(order["name"], str)
+        assert isinstance(order["email"], str)
+        assert isinstance(order["address"], str)
+        assert isinstance(order["product"], str)
+        assert isinstance(order["quantity"], int)
