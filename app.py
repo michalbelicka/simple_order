@@ -34,7 +34,7 @@ def order():
 def get_orders():
     conn = sqlite3.connect("orders.db")
     c = conn.cursor()
-    c.execute("SELECT * FROM orders")
+    c.execute("SELECT name, email, address, product, quantity FROM orders")
     rows = c.fetchall()
     orders = [
         {
