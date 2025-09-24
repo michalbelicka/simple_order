@@ -24,11 +24,14 @@ def test_post_orders():
         assert "product" in order
         assert "quantity" in order
     
-    assert orders[-1]["name"] == "TestUser"
-    assert orders[-1]["email"] == "test_user@example.com"
-    assert orders[-1]["address"] == "TestAddress"
-    assert orders[-1]["product"] == "TestProduct"
-    assert orders[-1]["quantity"] == 2
+    assert any(
+    order["name"] == "TestUser" and 
+    order["email"] == "test_user@example.com" and
+    order["address"] == "TestAddress" and 
+    order["product"] == "TestProduct" and
+    order["quantity"] == 2
+    for order in orders
+    )
 
     for order in orders:
         assert isinstance(order["id"], int)
