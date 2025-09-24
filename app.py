@@ -30,6 +30,31 @@ def order():
 
     return render_template("success.html")
 
+@app.route("/api/order", methods=["POST"])
+def get_api_order():
+    data = request.get_json()
+
+    name = data.get("name")
+    email = data.get("email")
+    address = data.get("address")
+    product = data.get("product")
+    quantity = data.get("quantity")
+
+    if not (name and email and address and product and quantity):
+        return jsonify({"error": "Missing data"}), 400
+    
+    conn = sqlite3.connect("orders.db")
+    c = conn.cursor()
+    c.execute(
+        "INSERT INTO orders (name, email, address, product, quantity)"
+        "VALUES (?, ?, ?, ?, ?)",
+        (name, email, address, product, quantity)
+    )
+    conn.commit()
+    conn.close()
+
+    return jsonify({"message": "Order created"}), 201
+
 @app.route("/orders", methods=["GET"])
 def get_orders():
     conn = sqlite3.connect("orders.db")
@@ -46,6 +71,6 @@ def get_orders():
         }
         for row in rows
     ]
-    return jsonify(orders)
+    return jsonify(orders), 200
 
 app.run(debug=True)

@@ -6,7 +6,7 @@ def create_db():
 
     c.execute("""
     CREATE TABLE IF NOT EXISTS orders (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            id INTEGER PRIMARY KEY,
             name TEXT,
             email TEXT,
             address TEXT,
