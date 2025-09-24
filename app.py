@@ -30,8 +30,6 @@ def order():
 
     return render_template("success.html")
 
-app.run(debug=True)
-
 @app.route("/orders", methods=["GET"])
 def get_orders():
     conn = sqlite3.connect("orders.db")
@@ -49,3 +47,5 @@ def get_orders():
         for row in rows
     ]
     return jsonify(orders)
+
+app.run(debug=True)
