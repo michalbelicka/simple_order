@@ -1,5 +1,7 @@
 import sqlite3
+import pytest
 
+@pytest.fixture
 def clear_db():
     conn = sqlite3.connect("orders.db")
     c = conn.cursor()
