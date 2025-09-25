@@ -9,4 +9,3 @@ def clear_db():
 
     conn.commit()
     conn.close()
-clear_db()
