@@ -5,10 +5,14 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.service import Service
 import requests
+from selenium.webdriver.chrome.options import Options
+import tempfile
 
 def test_selenium_api():
     service = Service(ChromeDriverManager().install())
-    driver = webdriver.Chrome(service=service)
+    options = Options()
+    options.add_argument(f"--user-data-dir={tempfile.mkdtemp()}")
+    driver = webdriver.Chrome(service=service, options=options)
     wait = WebDriverWait(driver, 10)
 
     driver.get("http://127.0.0.1:5000")
