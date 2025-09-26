@@ -11,6 +11,10 @@ import tempfile
 def test_selenium_api():
     service = Service(ChromeDriverManager().install())
     options = Options()
+    options.add_argument("--headless=new")  # Headless mód
+    options.add_argument("--no-sandbox")
+    options.add_argument("--disable-dev-shm-usage")
+    options.add_argument("--incognito")
     options.add_argument(f"--user-data-dir={tempfile.mkdtemp()}")
     driver = webdriver.Chrome(service=service, options=options)
     wait = WebDriverWait(driver, 10)
