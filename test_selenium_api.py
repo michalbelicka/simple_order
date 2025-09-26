@@ -6,7 +6,6 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.service import Service
 import requests
 from selenium.webdriver.chrome.options import Options
-import tempfile
 
 def test_selenium_api():
     service = Service(ChromeDriverManager().install())
@@ -15,7 +14,6 @@ def test_selenium_api():
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
     options.add_argument("--incognito")
-    options.add_argument(f"--user-data-dir={tempfile.mkdtemp()}")
     driver = webdriver.Chrome(service=service, options=options)
     wait = WebDriverWait(driver, 10)
 
