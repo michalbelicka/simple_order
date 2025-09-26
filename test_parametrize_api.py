@@ -33,5 +33,6 @@ def test_post_api_order(clear_db, payload, expected_payload, expected_status):
         get_response = requests.get("http://127.0.0.1:5000/orders")
         order = get_response.json()
         assert get_response.status_code == 200
-        assert all(order[-1][key] == value for key, value in expected_payload.items())
+        for key, value in expected_payload.items():
+            assert order[-1][key] == value 
         
