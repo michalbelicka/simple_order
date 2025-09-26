@@ -7,7 +7,7 @@ from selenium.webdriver.chrome.service import Service
 import requests
 from selenium.webdriver.chrome.options import Options
 
-def test_selenium_api():
+def test_selenium_api(clear_db):
     service = Service(ChromeDriverManager().install())
     options = Options()
     options.add_argument("--headless=new") 

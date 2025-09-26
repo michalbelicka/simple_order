@@ -1,6 +1,6 @@
 import requests
 
-def test_post_orders():
+def test_post_orders(clear_db):
 
     post_data = {
         "name": "TestUser",
