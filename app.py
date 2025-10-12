@@ -74,33 +74,33 @@ def get_orders():
     ]
     return jsonify(orders), 200
 
-@app.route("api/order/<int:order_id>", methods=["PUT"])
-def update_order(order_id):
-    data = request.get_json() or {}
+# @app.route("api/order/<int:order_id>", methods=["PUT"])
+# def update_order(order_id):
+#     data = request.get_json() or {}
 
-    name = data.get("name")
-    email = data.get("email")
-    address = data.get("address")
-    product = data.get("product")
-    quantity = data.get("quantity")
+#     name = data.get("name")
+#     email = data.get("email")
+#     address = data.get("address")
+#     product = data.get("product")
+#     quantity = data.get("quantity")
 
-    if not (name and email and address and product and quantity):
-        return jsonify({"error": "Missing data - all fields required for PUT"}), 400
+#     if not (name and email and address and product and quantity):
+#         return jsonify({"error": "Missing data - all fields required for PUT"}), 400
     
-    conn = sqlite3.connect("orders.db")
-    c = conn.cursor()
-    c.execute(
-        "UPDATE orders SET name=?, email=?, address=?, product=?, quantity=? WHERE id=?",
-        (name, email, address, product, quantity, order_id)
-    )
-    conn.commit()
+#     conn = sqlite3.connect("orders.db")
+#     c = conn.cursor()
+#     c.execute(
+#         "UPDATE orders SET name=?, email=?, address=?, product=?, quantity=? WHERE id=?",
+#         (name, email, address, product, quantity, order_id)
+#     )
+#     conn.commit()
     
-    if c.rowcount == 0:
-        conn.close()
-        return jsonify({"error": "order not found"}), 404
+#     if c.rowcount == 0:
+#         conn.close()
+#         return jsonify({"error": "order not found"}), 404
     
-    conn.close()
-    return jsonify({"message": "order updated"}), 200
+#     conn.close()
+#     return jsonify({"message": "order updated"}), 200
 
 
 
