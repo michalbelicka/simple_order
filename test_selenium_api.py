@@ -38,8 +38,8 @@ def test_selenium_api(clear_db):
     submit = wait.until(EC.element_to_be_clickable((By.XPATH, "//button[@type='submit']")))
     submit.click()
 
-    h1_flash = wait.until(EC.visibility_of_element_located((By.TAG_NAME, "h1")))
-    assert "Objednávka úspešne odoslaná!" in h1_flash.text
+    h1_element = wait.until(EC.text_to_be_present_in_element((By.TAG_NAME, "h1"), "Objednávka úspešne odoslaná!"))
+    assert h1_element
 
     driver.quit()
 

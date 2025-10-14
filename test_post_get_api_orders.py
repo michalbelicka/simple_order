@@ -1,6 +1,8 @@
 import requests
+import pytest
 
-def test_post_orders(clear_db):
+@pytest.fixture()
+def test_created_order(clear_db):
 
     post_data = {
         "name": "TestUser",
@@ -40,3 +42,5 @@ def test_post_orders(clear_db):
         assert isinstance(order["address"], str)
         assert isinstance(order["product"], str)
         assert isinstance(order["quantity"], int)
+
+    return orders[-1]["id"]
