@@ -74,6 +74,27 @@ def get_orders():
     ]
     return jsonify(orders), 200
 
+@app.route("/order/<int:order_id>", methods=["GET"])
+def get_order_by_id(order_id):
+    conn = sqlite3.connect("orders.db")
+    c = conn.cursor()
+    c.execute("SELECT id, name, email, address, product, quantity FROM orders WHERE id=?", (order_id,))
+    row = c.fetchone()
+    conn.close()
+    if row:
+        order = {
+            "id": row[0],
+             "name": row[1],
+             "email": row[2],
+             "address": row[3],
+             "product": row[4],
+             "quantity": row[5]
+        }
+        return jsonify(order), 200
+    else:
+        return jsonify({"error": "Order not found"}), 404
+
+
 @app.route("/api/order/<int:order_id>", methods=["PUT"])
 def update_order(order_id):
     data = request.get_json() or {}
