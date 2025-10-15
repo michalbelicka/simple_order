@@ -1,5 +1,5 @@
 import requests
-from test_post_get_api_orders import test_created_order
+from test_post_fixture import test_created_order
 
 def test_update_order(test_created_order):
     order_id = test_created_order
