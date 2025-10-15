@@ -102,10 +102,36 @@ def update_order(order_id):
     conn.close()
     return jsonify({"message": "order updated"}), 200
 
+@app.route("/api/order/<int:order_id>", methods=["PATCH"])
+def patch_order(order_id):
+    data = request.get_json() or {}
 
+    name = data.get("name")
+    email = data.get("email")
+    address = data.get("address")
+    product = data.get("product")
+    quantity = data.get("quantity")
 
+    if not data:
+        return jsonify({"error": "No data provided"}), 400
+    
+    conn = sqlite3.connect("orders.db")
+    c = conn.cursor()
 
+    if name:
+        c.execute("UPDATE orders SET name=? WHERE id=?", (name, order_id))
+    if email:
+        c.execute("UPDATE orders SET email=? WHERE id=?", (email, order_id))
+    if address:
+        c.execute("UPDATE orders SET address=? WHERE id=?", (address, order_id))
+    if product:
+        c.execute("UPDATE orders SET product=? WHERE id=?", (product, order_id))
+    if quantity:
+        c.execute("UPDATE orders SET quantity=? WHERE id=?", (quantity, order_id))
+    
+    conn.commit()
+    conn.close()
 
-
-
+    return jsonify({"message": "Order updated successfully"}), 200
+    
 app.run(debug=True)
