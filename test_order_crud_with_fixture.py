@@ -1,9 +1,8 @@
 import requests
 import pytest
 
-@pytest.fixture()
+@pytest.fixture(scope="module")
 def created_order(clear_db):
-
     post_data = {
         "name": "TestUser",
         "email": "test_user@example.com",
@@ -20,7 +19,6 @@ def created_order(clear_db):
     return order_id
 
 # GET TEST
-
 def test_get_order_by_id(created_order):
     order_id = created_order
     response = requests.get(f"http://127.0.0.1:5000/order/{order_id}")
@@ -40,6 +38,9 @@ def test_get_order_by_id(created_order):
     assert isinstance(order["product"], str)
     assert isinstance(order["quantity"], int)    
     
+# PUT TEST
+def test_put_order(created_order):
+    order_id = created_order
     update_data = {
         "name": "UpdatedUser",
         "email": "Updated_user@example.com",
@@ -47,9 +48,6 @@ def test_get_order_by_id(created_order):
         "product": "UpdatedProduct",
         "quantity": 4
     }
-
-# PUT TEST
-
     response_put = requests.put(f"http://127.0.0.1:5000/api/order/{order_id}", json=update_data)
     assert response_put.status_code == 200
     assert response_put.json()["message"] == "order updated"
@@ -70,12 +68,12 @@ def test_get_order_by_id(created_order):
     assert isinstance(updated_order["product"], str)
     assert isinstance(updated_order["quantity"], int)
 
+# PATCH TEST
+def test_patch_order(created_order):
+    order_id = created_order
     patch_data = {
         "quantity": 5
     }
-
-# PATCH TEST
-
     response_patch = requests.patch(f"http://127.0.0.1:5000/api/order/{order_id}", json=patch_data)
     assert response_patch.status_code == 200
     assert response_patch.json()["message"] == "Order updated successfully"
