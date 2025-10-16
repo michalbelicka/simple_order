@@ -1,8 +1,8 @@
 import requests
-from test_post_fixture import test_created_order
+from test_post_fixture import created_order
 
-def test_update_order(test_created_order):
-    order_id = test_created_order
+def test_update_order(created_order):
+    order_id = created_order
 
     update_data = {
         "name": "UpdatedUser",
@@ -15,7 +15,7 @@ def test_update_order(test_created_order):
     response = requests.put(f"http://127.0.0.1:5000/api/order/{order_id}", json=update_data)
     assert response.status_code == 200
     assert response.json()["message"] == "order updated"
-    
+
     response_get = requests.get("http://127.0.0.1:5000/orders")
     updated_orders = response_get.json()
 
