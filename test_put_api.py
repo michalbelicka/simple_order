@@ -16,30 +16,19 @@ def test_update_order(created_order):
     assert response.status_code == 200
     assert response.json()["message"] == "order updated"
 
-    response_get = requests.get("http://127.0.0.1:5000/orders")
-    updated_orders = response_get.json()
+    response_get = requests.get(f"http://127.0.0.1:5000/order/{order_id}")
+    updated_order = response_get.json()
 
-    for order in updated_orders:
-        assert "id" in order
-        assert "name" in order
-        assert "email" in order
-        assert "address" in order
-        assert "product" in order
-        assert "quantity" in order
     
-    assert any(
-    order["name"] == "UpdatedUser" and 
-    order["email"] == "Updated_user@example.com" and
-    order["address"] == "UpdatedAddress" and 
-    order["product"] == "UpdatedProduct" and
-    order["quantity"] == 4
-    for order in updated_orders
-    )
+    assert updated_order["name"] == "UpdatedUser"
+    assert updated_order["email"] == "Updated_user@example.com"
+    assert updated_order["address"] == "UpdatedAddress"
+    assert updated_order["product"] == "UpdatedProduct"
+    assert updated_order["quantity"] == 4
 
-    for order in updated_orders:
-        assert isinstance(order["id"], int)
-        assert isinstance(order["name"], str)
-        assert isinstance(order["email"], str)
-        assert isinstance(order["address"], str)
-        assert isinstance(order["product"], str)
-        assert isinstance(order["quantity"], int)
+    assert isinstance(updated_order["id"], int)
+    assert isinstance(updated_order["name"], str)
+    assert isinstance(updated_order["email"], str)
+    assert isinstance(updated_order["address"], str)
+    assert isinstance(updated_order["product"], str)
+    assert isinstance(updated_order["quantity"], int)
