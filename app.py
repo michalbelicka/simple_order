@@ -50,10 +50,14 @@ def get_api_order():
         "VALUES (?, ?, ?, ?, ?)",
         (name, email, address, product, quantity)
     )
+    order_id = c.lastrowid
     conn.commit()
     conn.close()
 
-    return jsonify({"message": "Order created"}), 201
+    return jsonify({
+        "message": "Order created",
+        "id": order_id
+    }), 201
 
 @app.route("/orders", methods=["GET"])
 def get_orders():
@@ -93,7 +97,6 @@ def get_order_by_id(order_id):
         return jsonify(order), 200
     else:
         return jsonify({"error": "Order not found"}), 404
-
 
 @app.route("/api/order/<int:order_id>", methods=["PUT"])
 def update_order(order_id):

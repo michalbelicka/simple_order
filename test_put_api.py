@@ -14,6 +14,8 @@ def test_update_order(test_created_order):
 
     response = requests.put(f"http://127.0.0.1:5000/api/order/{order_id}", json=update_data)
     assert response.status_code == 200
+    assert response.json()["message"] == "order updated"
+    
     response_get = requests.get("http://127.0.0.1:5000/orders")
     updated_orders = response_get.json()
 

@@ -14,6 +14,7 @@ def test_created_order(clear_db):
 
     response = requests.post("http://127.0.0.1:5000/api/order", json=post_data)
     assert response.status_code == 201
+    assert response.json()["message"] == "Order created"
     
     response = requests.get("http://127.0.0.1:5000/orders")
     assert response.status_code == 200
