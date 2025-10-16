@@ -23,7 +23,7 @@ The main goal of this project is to demonstrate practical skills in automated te
 
 ## Tests Included
 
-- **Pure API tests** with pytest (GET and POST requests)
+- **Pure API tests** with pytest (POST, GET, PUT, PATCH requests)
 - **Combined Selenium + API test**: Selenium sends form data, and API verifies it in the database
 - **Parameterized API tests**: testing with multiple input values
 
@@ -70,7 +70,7 @@ While working on this project, I followed a step-by-step approach to develop my 
 - Learned the basics of **Flask** to create a simple backend application
 - Created and integrated a **SQLite database** to store order data
 - Implemented **pytest fixtures** for setup and cleanup between tests
-- Developed **automated API tests** for GET and POST methods
+- Developed **automated API tests** for GET, POST, PUT, PATCH methods
 - Combined **Selenium and API testing** for end-to-end scenarios
 - Set up a **CI pipeline with GitHub Actions** to automate testing
 
@@ -78,7 +78,9 @@ While working on this project, I followed a step-by-step approach to develop my 
 
 ## Future Improvements
 
-- Extend the Flask backend with **PUT**, **PATCH**, and **DELETE** endpoints
+- Extend the Flask backend with **DELETE** endpoints
+- Implement a single comprehensive test covering POST, GET, PUT, PATCH, and DELETE operations
+- Add separate API tests for POST, GET, PUT, PATCH, and DELETE methods
 - Add API tests for these methods using **requests** and **pytest**
 - Create manual **test cases** for the order form (positive and negative scenarios)
 - Add screenshots showing successful form submissions for documentation
