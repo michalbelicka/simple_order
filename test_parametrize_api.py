@@ -30,7 +30,7 @@ def test_post_api_order(clear_db, payload, expected_payload, expected_status):
     assert post_response.status_code == expected_status
     
     if expected_status == 201:
-        get_response = requests.get("http://127.0.0.1:5000/orders")
+        get_response = requests.get("http://127.0.0.1:5000/api/orders")
         order = get_response.json()
         assert get_response.status_code == 200
         for key, value in expected_payload.items():

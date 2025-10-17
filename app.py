@@ -27,7 +27,6 @@ def order():
     )
     conn.commit()
     conn.close()
-
     return render_template("success.html")
 
 @app.route("/api/order", methods=["POST"])
@@ -53,13 +52,12 @@ def get_api_order():
     order_id = c.lastrowid
     conn.commit()
     conn.close()
-
     return jsonify({
         "message": "Order created",
         "id": order_id
     }), 201
 
-@app.route("/orders", methods=["GET"])
+@app.route("/api/orders", methods=["GET"])
 def get_orders():
     conn = sqlite3.connect("orders.db")
     c = conn.cursor()
@@ -78,7 +76,7 @@ def get_orders():
     ]
     return jsonify(orders), 200
 
-@app.route("/order/<int:order_id>", methods=["GET"])
+@app.route("/api/order/<int:order_id>", methods=["GET"])
 def get_order_by_id(order_id):
     conn = sqlite3.connect("orders.db")
     c = conn.cursor()
@@ -155,7 +153,20 @@ def patch_order(order_id):
     
     conn.commit()
     conn.close()
-
     return jsonify({"message": "Order updated successfully"}), 200
     
+@app.route("/api/order/<int:order_id>", methods=["DELETE"])
+def delete_order(order_id):
+    conn = sqlite3.connect("orders.db")
+    c = conn.cursor()
+    c.execute("DELETE FROM orders WHERE id=?", (order_id,))
+    conn.commit()
+
+    if c.rowcount == 0:
+        conn.close()
+        return jsonify({"error": "Order not found"}), 404
+    
+    conn.close()
+    return jsonify({"message": "Order successfully deleted"}), 200
+
 app.run(debug=True)

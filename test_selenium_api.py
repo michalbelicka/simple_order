@@ -43,7 +43,7 @@ def test_selenium_api(clear_db):
 
     driver.quit()
 
-    response = requests.get("http://127.0.0.1:5000/orders")
+    response = requests.get("http://127.0.0.1:5000/api/orders")
     assert response.status_code == 200
     orders = response.json()
     assert any(

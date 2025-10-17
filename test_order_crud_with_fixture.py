@@ -21,7 +21,7 @@ def created_order(clear_db):
 # GET TEST
 def test_get_order_by_id(created_order):
     order_id = created_order
-    response = requests.get(f"http://127.0.0.1:5000/order/{order_id}")
+    response = requests.get(f"http://127.0.0.1:5000/api/order/{order_id}")
     assert response.status_code == 200
     order = response.json()
 
@@ -39,7 +39,7 @@ def test_get_order_by_id(created_order):
     assert isinstance(order["quantity"], int)    
     
 # PUT TEST
-def test_put_order(created_order):
+def test_put_order_by_id(created_order):
     order_id = created_order
     update_data = {
         "name": "UpdatedUser",
@@ -52,7 +52,7 @@ def test_put_order(created_order):
     assert response_put.status_code == 200
     assert response_put.json()["message"] == "order updated"
 
-    response_get = requests.get(f"http://127.0.0.1:5000/order/{order_id}")
+    response_get = requests.get(f"http://127.0.0.1:5000/api/order/{order_id}")
     updated_order = response_get.json()
 
     assert updated_order["name"] == "UpdatedUser"
@@ -69,7 +69,7 @@ def test_put_order(created_order):
     assert isinstance(updated_order["quantity"], int)
 
 # PATCH TEST
-def test_patch_order(created_order):
+def test_patch_order_by_id(created_order):
     order_id = created_order
     patch_data = {
         "quantity": 5
@@ -78,7 +78,7 @@ def test_patch_order(created_order):
     assert response_patch.status_code == 200
     assert response_patch.json()["message"] == "Order updated successfully"
 
-    patch_order = requests.get(f"http://127.0.0.1:5000/order/{order_id}").json()
+    patch_order = requests.get(f"http://127.0.0.1:5000/api/order/{order_id}").json()
 
     assert patch_order["quantity"] == 5
     assert isinstance(patch_order["quantity"], int)
@@ -95,3 +95,12 @@ def test_patch_order(created_order):
     assert patch_order["product"] == "UpdatedProduct"
     assert isinstance(patch_order["product"], str)
     assert isinstance(patch_order["id"], int)
+
+# DELETE TEST
+def test_delete_order_by_id(created_order):
+    order_id = created_order
+    response_del = requests.delete(f"http://127.0.0.1:5000/api/order/{order_id}")
+    assert response_del.status_code == 200
+    assert response_del.json()["message"] == "Order successfully deleted"
+    response_get = requests.get(f"http://127.0.0.1:5000/api/order/{order_id}")
+    assert response_get.status_code == 404
