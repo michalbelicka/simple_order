@@ -23,8 +23,9 @@ The main goal of this project is to demonstrate practical skills in automated te
 
 ## Tests Included
 
-- **Pure API tests** with pytest (POST, GET, PUT, PATCH requests)
-- **Combined Selenium + API test**: Selenium sends form data, and API verifies it in the database
+- **Standalone CRUD test**: covers full lifecycle of an order (POST → GET → PUT → PATCH → DELETE) using fixtures
+- **Modular API tests**: independent tests for POST, GET, PUT, PATCH, and DELETE operations
+- **Combined Selenium + API tests**: Selenium submits order form and API verifies data in the database
 - **Parameterized API tests**: testing with multiple input values
 
 ---
@@ -70,7 +71,7 @@ While working on this project, I followed a step-by-step approach to develop my 
 - Learned the basics of **Flask** to create a simple backend application
 - Created and integrated a **SQLite database** to store order data
 - Implemented **pytest fixtures** for setup and cleanup between tests
-- Developed **automated API tests** for GET, POST, PUT, PATCH methods
+- Developed **automated API tests** for POST, GET, PUT, PATCH, and DELETE methods
 - Combined **Selenium and API testing** for end-to-end scenarios
 - Set up a **CI pipeline with GitHub Actions** to automate testing
 
@@ -78,9 +79,9 @@ While working on this project, I followed a step-by-step approach to develop my 
 
 ## Future Improvements
 
-- Extend the Flask backend with **DELETE** endpoints
-- Implement a single comprehensive test covering POST, GET, PUT, PATCH, and DELETE operations
-- Add separate API tests for POST, GET, PUT, PATCH, and DELETE methods
-- Add API tests for these methods using **requests** and **pytest**
-- Create manual **test cases** for the order form (positive and negative scenarios)
-- Add screenshots showing successful form submissions for documentation
+- Add **basic validation criteria** in the Flask backend (for example, checks for name format, valid email, positive quantity)
+- Once validations are in place, add **edge case and negative tests** to verify how the system handles invalid or missing input
+- Include **screenshots or logs** for Selenium tests for easier debugging
+- Create **manual test cases** documenting expected behavior of the order form
+- Improve the front-end design to make the order form more user-friendly and visually appealing
+- Improve **README and documentation** with examples and test instructions
