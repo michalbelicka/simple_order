@@ -26,8 +26,9 @@ def order():
         (name, email, address, product, quantity)
     )
     conn.commit()
+    order_id = c.lastrowid
     conn.close()
-    return render_template("success.html")
+    return render_template("success.html", order_id=order_id)
 
 @app.route("/api/order", methods=["POST"])
 def get_api_order():

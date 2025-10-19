@@ -41,25 +41,26 @@ def test_selenium_api(clear_db):
     h1_element = wait.until(EC.text_to_be_present_in_element((By.TAG_NAME, "h1"), "Objednávka úspešne odoslaná!"))
     assert h1_element
 
+    order_id_elem = wait.until(EC.visibility_of_element_located((By.ID, "order_id")))
+    order_id = order_id_elem.text
+    assert order_id != ""
+
     driver.quit()
 
-    response = requests.get("http://127.0.0.1:5000/api/orders")
+    response = requests.get(f"http://127.0.0.1:5000/api/order/{order_id}")
     assert response.status_code == 200
-    orders = response.json()
-    assert any(
-        order["name"] == "Tester" and 
-        order["email"] == "tester@example.com" and
-        order["address"] == "TestingAddress" and 
-        order["product"] == "computer" and
-        order["quantity"] == 3
-        for order in orders
-    )
-    assert all(
-    isinstance(order["id"], int) and
-    isinstance(order["name"], str) and
-    isinstance(order["email"], str) and
-    isinstance(order["address"], str) and
-    isinstance(order["product"], str) and
-    isinstance(order["quantity"], int)
-    for order in orders
-    ), "Order 'Tester' not found in API response"
+    order = response.json()
+    assert order["name"] == "Tester"
+    assert order["email"] == "tester@example.com"
+    assert order["address"] == "TestingAddress"
+    assert order["product"] == "computer"
+    assert order["quantity"] == 3
+
+    
+    assert isinstance(order["id"], int) 
+    assert isinstance(order["name"], str) 
+    assert isinstance(order["email"], str) 
+    assert isinstance(order["address"], str) 
+    assert isinstance(order["product"], str) 
+    assert isinstance(order["quantity"], int)
+    
