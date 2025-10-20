@@ -6,7 +6,7 @@ app = Flask(__name__)
 @app.route("/")
 def index():
     return render_template("order_form.html")
-
+# Create new order with ID (html)
 @app.route("/order", methods=["POST"])
 def order():
     name = request.form.get("name")
@@ -29,7 +29,7 @@ def order():
     order_id = c.lastrowid
     conn.close()
     return render_template("success.html", order_id=order_id)
-
+# Create new order with ID (API)
 @app.route("/api/order", methods=["POST"])
 def get_api_order():
     data = request.get_json()
@@ -57,7 +57,7 @@ def get_api_order():
         "message": "Order created",
         "id": order_id
     }), 201
-
+# GET all orders (API)
 @app.route("/api/orders", methods=["GET"])
 def get_orders():
     conn = sqlite3.connect("orders.db")
@@ -76,7 +76,7 @@ def get_orders():
         for row in rows
     ]
     return jsonify(orders), 200
-
+# GET order with ID (API)
 @app.route("/api/order/<int:order_id>", methods=["GET"])
 def get_order_by_id(order_id):
     conn = sqlite3.connect("orders.db")
@@ -96,7 +96,7 @@ def get_order_by_id(order_id):
         return jsonify(order), 200
     else:
         return jsonify({"error": "Order not found"}), 404
-
+# PUT order with ID (API)
 @app.route("/api/order/<int:order_id>", methods=["PUT"])
 def update_order(order_id):
     data = request.get_json() or {}
@@ -124,7 +124,7 @@ def update_order(order_id):
     
     conn.close()
     return jsonify({"message": "order updated"}), 200
-
+# PATCH order with ID (API)
 @app.route("/api/order/<int:order_id>", methods=["PATCH"])
 def patch_order(order_id):
     data = request.get_json() or {}
@@ -155,7 +155,7 @@ def patch_order(order_id):
     conn.commit()
     conn.close()
     return jsonify({"message": "Order updated successfully"}), 200
-    
+# DELETE order by ID (API)
 @app.route("/api/order/<int:order_id>", methods=["DELETE"])
 def delete_order(order_id):
     conn = sqlite3.connect("orders.db")
@@ -169,5 +169,5 @@ def delete_order(order_id):
     
     conn.close()
     return jsonify({"message": "Order successfully deleted"}), 200
-
-app.run(debug=True)
+if __name__ == "__main__":
+    app.run(debug=True)
