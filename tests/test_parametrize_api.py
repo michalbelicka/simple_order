@@ -3,7 +3,7 @@ import requests
 
 test_data = [
     (
-        {"name": "Tester", "email": "tester@example.com", "address":      "TestAddress", "product": "computer", "quantity": 1},
+        {"name": "Tester", "email": "tester@example.com", "address": "TestAddress", "product": "computer", "quantity": 1},
         {"name": "Tester", "email": "tester@example.com", "address": "TestAddress", "product": "computer", "quantity": 1},
         201
     ),
