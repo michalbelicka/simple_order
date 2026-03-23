@@ -24,6 +24,7 @@ The main goal of this project is to demonstrate practical skills in automated te
 ## Tests Included
 
 - **Standalone CRUD test**: covers full lifecycle of an order (POST → GET → PUT → PATCH → DELETE) using fixtures
+- **Database verification tests**: check that data is correctly saved, updated, patched, and deleted in `orders.db`
 - **Modular API tests**: independent tests for POST, GET, PUT, PATCH, and DELETE operations
 - **Combined Selenium + API tests**: Selenium submits order form and API verifies data in the database
 - **Parameterized API tests**: testing with multiple input values
