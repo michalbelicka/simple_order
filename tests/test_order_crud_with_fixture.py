@@ -1,5 +1,6 @@
 import requests
 import pytest
+from tests.helpers.db_utils import get_order_from_db
 
 @pytest.fixture(scope="module")
 def created_order(clear_db):
@@ -17,6 +18,26 @@ def created_order(clear_db):
     order_id = response.json()["id"]
     assert isinstance(order_id, int)
     return order_id
+
+def test_created_order_saved_in_db(created_order):
+    order_id = created_order
+
+    row = get_order_from_db(order_id)
+    assert row is not None
+
+    assert row["name"] == "TestUser"
+    assert row["email"] == "test_user@example.com"
+    assert row["address"] == "TestAddress"
+    assert row["product"] == "TestProduct"
+    assert row["quantity"] == 2
+    
+    assert isinstance(row["id"], int)
+    assert isinstance(row["name"], str)
+    assert isinstance(row["email"], str)
+    assert isinstance(row["address"], str)
+    assert isinstance(row["product"], str)
+    assert isinstance(row["quantity"], int)
+
 
 # GET TEST
 def test_get_order_by_id(created_order):
