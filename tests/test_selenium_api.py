@@ -6,14 +6,18 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.service import Service
 import requests
 from selenium.webdriver.chrome.options import Options
+from tests.helpers.db_utils import get_order_from_db
 
 def test_selenium_api(clear_db):
+
     service = Service(ChromeDriverManager().install())
     options = Options()
+
     options.add_argument("--headless=new") 
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
     options.add_argument("--incognito")
+
     driver = webdriver.Chrome(service=service, options=options)
     wait = WebDriverWait(driver, 10)
 
@@ -43,24 +47,44 @@ def test_selenium_api(clear_db):
 
     order_id_elem = wait.until(EC.visibility_of_element_located((By.ID, "order_id")))
     order_id = order_id_elem.text
+
     assert order_id != ""
 
     driver.quit()
 
     response = requests.get(f"http://127.0.0.1:5000/api/order/{order_id}")
+
     assert response.status_code == 200
+
     order = response.json()
+
     assert order["name"] == "Tester"
     assert order["email"] == "tester@example.com"
     assert order["address"] == "TestingAddress"
     assert order["product"] == "computer"
     assert order["quantity"] == 3
 
-    
     assert isinstance(order["id"], int) 
     assert isinstance(order["name"], str) 
     assert isinstance(order["email"], str) 
     assert isinstance(order["address"], str) 
     assert isinstance(order["product"], str) 
     assert isinstance(order["quantity"], int)
+
+    row = get_order_from_db(order_id)
+    assert row is not None
+
+    assert row["name"] == "Tester"
+    assert row["email"] == "tester@example.com"
+    assert row["address"] == "TestingAddress"
+    assert row["product"] == "computer"
+    assert row["quantity"] == 3
+    
+    assert isinstance(row["id"], int)
+    assert isinstance(row["name"], str)
+    assert isinstance(row["email"], str)
+    assert isinstance(row["address"], str)
+    assert isinstance(row["product"], str)
+    assert isinstance(row["quantity"], int)
+
     
