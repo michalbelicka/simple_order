@@ -1,11 +1,32 @@
 from flask import Flask, render_template, request, jsonify
 import sqlite3
+from flask_sqlalchemy import SQLAlchemy
+from pathlib import Path
 
 app = Flask(__name__)
+
+BASE_DIR = Path(__file__).resolve().parent
+db_path = BASE_DIR / "orders.db"
+
+app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite:///{db_path}"
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+
+db = SQLAlchemy(app)
+
+class Order(db.Model):
+    __tablename__ = "orders"
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    email = db.Column(db.String(100), nullable=False)
+    address = db.Column(db.String(100), nullable=False)
+    product = db.Column(db.String(100), nullable=False)
+    quantity = db.Column(db.Integer, nullable=False)
 
 @app.route("/")
 def index():
     return render_template("order_form.html")
+
 # Create new order with ID (html)
 @app.route("/order", methods=["POST"])
 def order():
@@ -29,6 +50,7 @@ def order():
     order_id = c.lastrowid
     conn.close()
     return render_template("success.html", order_id=order_id)
+
 # Create new order with ID (API)
 @app.route("/api/order", methods=["POST"])
 def get_api_order():
@@ -57,25 +79,27 @@ def get_api_order():
         "message": "Order created",
         "id": order_id
     }), 201
+
 # GET all orders (API)
 @app.route("/api/orders", methods=["GET"])
 def get_orders():
-    conn = sqlite3.connect("orders.db")
-    c = conn.cursor()
-    c.execute("SELECT id, name, email, address, product, quantity FROM orders")
-    rows = c.fetchall()
-    orders = [
-        {
-             "id": row[0],
-             "name": row[1],
-             "email": row[2],
-             "address": row[3],
-             "product": row[4],
-             "quantity": row[5]
-        }
-        for row in rows
-    ]
-    return jsonify(orders), 200
+   
+    orders = Order.query.all()
+
+    result = []
+
+    for order in orders:
+        result.append({
+            "id": order.id,
+            "name": order.name,
+            "email": order.email,
+            "address": order.address,
+            "product": order.product,
+            "quantity": order.quantity
+        })
+
+    return jsonify(result), 200
+
 # GET order with ID (API)
 @app.route("/api/order/<int:order_id>", methods=["GET"])
 def get_order_by_id(order_id):
@@ -96,6 +120,7 @@ def get_order_by_id(order_id):
         return jsonify(order), 200
     else:
         return jsonify({"error": "Order not found"}), 404
+    
 # PUT order with ID (API)
 @app.route("/api/order/<int:order_id>", methods=["PUT"])
 def update_order(order_id):
@@ -124,6 +149,7 @@ def update_order(order_id):
     
     conn.close()
     return jsonify({"message": "order updated"}), 200
+
 # PATCH order with ID (API)
 @app.route("/api/order/<int:order_id>", methods=["PATCH"])
 def patch_order(order_id):
@@ -155,6 +181,7 @@ def patch_order(order_id):
     conn.commit()
     conn.close()
     return jsonify({"message": "Order updated successfully"}), 200
+
 # DELETE order by ID (API)
 @app.route("/api/order/<int:order_id>", methods=["DELETE"])
 def delete_order(order_id):
@@ -170,4 +197,7 @@ def delete_order(order_id):
     conn.close()
     return jsonify({"message": "Order successfully deleted"}), 200
 if __name__ == "__main__":
+    with app.app_context():
+        db.create_all()
+
     app.run(debug=True)
