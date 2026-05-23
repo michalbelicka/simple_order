@@ -2,7 +2,7 @@ name: Testing project Flask, Selenium, API
 
 on:
   push:
-    branches: ["main"]
+    branches: ["main", "sqlalchemy-refactor"]
   pull_request:
     branches: ["main"]
   schedule:
