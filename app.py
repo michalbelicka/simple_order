@@ -54,6 +54,7 @@ def order():
 # Create new order with ID (API)
 @app.route("/api/order", methods=["POST"])
 def get_api_order():
+
     data = request.get_json()
 
     name = data.get("name")
@@ -65,19 +66,30 @@ def get_api_order():
     if not (name and email and address and product and quantity):
         return jsonify({"error": "Missing data"}), 400
     
-    conn = sqlite3.connect("orders.db")
-    c = conn.cursor()
-    c.execute(
-        "INSERT INTO orders (name, email, address, product, quantity)"
-        "VALUES (?, ?, ?, ?, ?)",
-        (name, email, address, product, quantity)
+    new_order = Order(
+        name=name,
+        email=email,
+        address=address,
+        product=product,
+        quantity=quantity
     )
-    order_id = c.lastrowid
-    conn.commit()
-    conn.close()
+    db.session.add(new_order)
+    db.session.commit()
+
+    
+    # conn = sqlite3.connect("orders.db")
+    # c = conn.cursor()
+    # c.execute(
+    #     "INSERT INTO orders (name, email, address, product, quantity)"
+    #     "VALUES (?, ?, ?, ?, ?)",
+    #     (name, email, address, product, quantity)
+    # )
+    # order_id = c.lastrowid
+    # conn.commit()
+    # conn.close()
     return jsonify({
         "message": "Order created",
-        "id": order_id
+        "id": new_order.id
     }), 201
 
 # GET all orders (API)
