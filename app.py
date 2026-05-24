@@ -164,45 +164,46 @@ def update_order(order_id):
 # PATCH order with ID (API)
 @app.route("/api/order/<int:order_id>", methods=["PATCH"])
 def patch_order(order_id):
+
     data = request.get_json() or {}
 
-    name = data.get("name")
-    email = data.get("email")
-    address = data.get("address")
-    product = data.get("product")
-    quantity = data.get("quantity")
+    # name = data.get("name")
+    # email = data.get("email")
+    # address = data.get("address")
+    # product = data.get("product")
+    # quantity = data.get("quantity")
 
     if not data:
         return jsonify({"error": "No data provided"}), 400
     
-    conn = sqlite3.connect("orders.db")
-    c = conn.cursor()
+    order = db.session.get(Order, order_id)
 
-    if name:
-        c.execute("UPDATE orders SET name=? WHERE id=?", (name, order_id))
-    if email:
-        c.execute("UPDATE orders SET email=? WHERE id=?", (email, order_id))
-    if address:
-        c.execute("UPDATE orders SET address=? WHERE id=?", (address, order_id))
-    if product:
-        c.execute("UPDATE orders SET product=? WHERE id=?", (product, order_id))
-    if quantity:
-        c.execute("UPDATE orders SET quantity=? WHERE id=?", (quantity, order_id))
+    if not order:
+        return jsonify({"error": "Order not found"}), 404
     
-    conn.commit()
-    conn.close()
+    if "name" in data:
+        order.name = data["name"]
+
+    if "email" in data:
+        order.email = data["email"]
+
+    if "address" in data:
+        order.address = data["address"]
+
+    if "product" in data:
+        order.product = data["product"]
+
+    if "quantity" in data:
+        order.quantity = data["quantity"]
+
+    db.session.commit()
+    
     return jsonify({"message": "Order updated successfully"}), 200
 
 # DELETE order by ID (API)
 @app.route("/api/order/<int:order_id>", methods=["DELETE"])
 def delete_order(order_id):
-    # conn = sqlite3.connect("orders.db")
-    # c = conn.cursor()
-    # c.execute("DELETE FROM orders WHERE id=?", (order_id,))
-    # conn.commit()
-
-    # if c.rowcount == 0:
-    #     conn.close()
+ 
     order = db.session.get(Order, order_id)
 
     if not order:
