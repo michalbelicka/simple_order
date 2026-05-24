@@ -30,6 +30,7 @@ def index():
 # Create new order with ID (html)
 @app.route("/order", methods=["POST"])
 def order():
+
     name = request.form.get("name")
     email = request.form.get("email")
     address = request.form.get("address")
@@ -39,17 +40,28 @@ def order():
     if not (name and email and address and product and quantity):
         return "Chýbajú povinné údaje", 400
     
-    conn = sqlite3.connect("orders.db")
-    c = conn.cursor()
-    c.execute(
-        "INSERT INTO orders (name, email, address, product, quantity)"
-        "VALUES (?, ?, ?, ?, ?)",
-        (name, email, address, product, quantity)
+    new_order = Order(
+        name=name,
+        email=email,
+        address=address,
+        product=product,
+        quantity=quantity
     )
-    conn.commit()
-    order_id = c.lastrowid
-    conn.close()
-    return render_template("success.html", order_id=order_id)
+
+    db.session.add(new_order)
+    db.session.commit()
+    
+    # conn = sqlite3.connect("orders.db")
+    # c = conn.cursor()
+    # c.execute(
+    #     "INSERT INTO orders (name, email, address, product, quantity)"
+    #     "VALUES (?, ?, ?, ?, ?)",
+    #     (name, email, address, product, quantity)
+    # )
+    # conn.commit()
+    # order_id = c.lastrowid
+    # conn.close()
+    return render_template("success.html", order_id=new_order.id)
 
 # Create new order with ID (API)
 @app.route("/api/order", methods=["POST"])
@@ -76,17 +88,6 @@ def get_api_order():
     db.session.add(new_order)
     db.session.commit()
 
-    
-    # conn = sqlite3.connect("orders.db")
-    # c = conn.cursor()
-    # c.execute(
-    #     "INSERT INTO orders (name, email, address, product, quantity)"
-    #     "VALUES (?, ?, ?, ?, ?)",
-    #     (name, email, address, product, quantity)
-    # )
-    # order_id = c.lastrowid
-    # conn.commit()
-    # conn.close()
     return jsonify({
         "message": "Order created",
         "id": new_order.id
