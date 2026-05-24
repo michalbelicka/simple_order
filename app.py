@@ -134,7 +134,13 @@ def get_order_by_id(order_id):
 # PUT order with ID (API)
 @app.route("/api/order/<int:order_id>", methods=["PUT"])
 def update_order(order_id):
+
     data = request.get_json() or {}
+
+    order = db.session.get(Order, order_id)
+
+    if not order:
+        return jsonify({"error": "Order not found"}), 404
 
     name = data.get("name")
     email = data.get("email")
@@ -145,19 +151,14 @@ def update_order(order_id):
     if not (name and email and address and product and quantity):
         return jsonify({"error": "Missing data - all fields required for PUT"}), 400
     
-    conn = sqlite3.connect("orders.db")
-    c = conn.cursor()
-    c.execute(
-        "UPDATE orders SET name=?, email=?, address=?, product=?, quantity=? WHERE id=?",
-        (name, email, address, product, quantity, order_id)
-    )
-    conn.commit()
+    order.name = name
+    order.email = email
+    order.address = address
+    order.product = product
+    order.quantity = quantity
+
+    db.session.commit()
     
-    if c.rowcount == 0:
-        conn.close()
-        return jsonify({"error": "order not found"}), 404
-    
-    conn.close()
     return jsonify({"message": "order updated"}), 200
 
 # PATCH order with ID (API)
