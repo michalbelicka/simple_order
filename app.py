@@ -196,17 +196,23 @@ def patch_order(order_id):
 # DELETE order by ID (API)
 @app.route("/api/order/<int:order_id>", methods=["DELETE"])
 def delete_order(order_id):
-    conn = sqlite3.connect("orders.db")
-    c = conn.cursor()
-    c.execute("DELETE FROM orders WHERE id=?", (order_id,))
-    conn.commit()
+    # conn = sqlite3.connect("orders.db")
+    # c = conn.cursor()
+    # c.execute("DELETE FROM orders WHERE id=?", (order_id,))
+    # conn.commit()
 
-    if c.rowcount == 0:
-        conn.close()
+    # if c.rowcount == 0:
+    #     conn.close()
+    order = db.session.get(Order, order_id)
+
+    if not order:
         return jsonify({"error": "Order not found"}), 404
     
-    conn.close()
+    db.session.delete(order)
+    db.session.commit()
+    
     return jsonify({"message": "Order successfully deleted"}), 200
+
 if __name__ == "__main__":
     with app.app_context():
         db.create_all()
