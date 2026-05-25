@@ -52,18 +52,18 @@ def test_order_saved_in_db(new_order):
     row = get_order_from_db(order_id)
     assert row is not None
 
-    assert row["name"] == "User"
-    assert row["email"] == "user@example.com"
-    assert row["address"] == "Address"
-    assert row["product"] == "Product"
-    assert row["quantity"] == 2
+    assert row.name == "User"
+    assert row.email == "user@example.com"
+    assert row.address == "Address"
+    assert row.product == "Product"
+    assert row.quantity == 2
     
-    assert isinstance(row["id"], int)
-    assert isinstance(row["name"], str)
-    assert isinstance(row["email"], str)
-    assert isinstance(row["address"], str)
-    assert isinstance(row["product"], str)
-    assert isinstance(row["quantity"], int)
+    assert isinstance(row.id, int)
+    assert isinstance(row.name, str)
+    assert isinstance(row.email, str)
+    assert isinstance(row.address, str)
+    assert isinstance(row.product, str)
+    assert isinstance(row.quantity, int)
 
 
 def test_put_order(new_order):
@@ -107,15 +107,15 @@ def test_put_order_saved_in_db(new_order):
     row = get_order_from_db(order_id)
     assert row is not None
 
-    assert row["name"] == "PutUser"
-    assert row["email"] == "put_user@example.com"
-    assert row["address"] == "PutAddress"
-    assert row["product"] == "PutProduct"
-    assert row["quantity"] == 6
+    assert row.name == "PutUser"
+    assert row.email == "put_user@example.com"
+    assert row.address == "PutAddress"
+    assert row.product == "PutProduct"
+    assert row.quantity == 6
     
-    assert isinstance(row["id"], int)
-    assert isinstance(row["name"], str)
-    assert isinstance(row["email"], str)
-    assert isinstance(row["address"], str)
-    assert isinstance(row["product"], str)
-    assert isinstance(row["quantity"], int)
+    assert isinstance(row.id, int)
+    assert isinstance(row.name, str)
+    assert isinstance(row.email, str)
+    assert isinstance(row.address, str)
+    assert isinstance(row.product, str)
+    assert isinstance(row.quantity, int)
