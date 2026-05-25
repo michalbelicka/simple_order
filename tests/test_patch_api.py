@@ -50,18 +50,18 @@ def test_order_saved_in_db(new_order):
     row = get_order_from_db(order_id)
     assert row is not None
 
-    assert row["name"] == "User2"
-    assert row["email"] == "user2@example.com"
-    assert row["address"] == "Address2"
-    assert row["product"] == "Product2"
-    assert row["quantity"] == 3
+    assert row.name == "User2"
+    assert row.email == "user2@example.com"
+    assert row.address == "Address2"
+    assert row.product == "Product2"
+    assert row.quantity == 3
     
-    assert isinstance(row["id"], int)
-    assert isinstance(row["name"], str)
-    assert isinstance(row["email"], str)
-    assert isinstance(row["address"], str)
-    assert isinstance(row["product"], str)
-    assert isinstance(row["quantity"], int)
+    assert isinstance(row.id, int)
+    assert isinstance(row.name, str)
+    assert isinstance(row.email, str)
+    assert isinstance(row.address, str)
+    assert isinstance(row.product, str)
+    assert isinstance(row.quantity, int)
 
 
 def test_patch_order(new_order):
@@ -102,16 +102,16 @@ def test_patched_order_saved_in_db(new_order):
     row = get_order_from_db(order_id)
     assert row is not None
 
-    assert row["name"] == "User5"
-    assert row["email"] == "user2@example.com"
-    assert row["address"] == "Address2"
-    assert row["product"] == "Product2"
-    assert row["quantity"] == 3
+    assert row.name == "User5"
+    assert row.email == "user2@example.com"
+    assert row.address == "Address2"
+    assert row.product == "Product2"
+    assert row.quantity == 3
     
-    assert isinstance(row["id"], int)
-    assert isinstance(row["name"], str)
-    assert isinstance(row["email"], str)
-    assert isinstance(row["address"], str)
-    assert isinstance(row["product"], str)
-    assert isinstance(row["quantity"], int)
+    assert isinstance(row.id, int)
+    assert isinstance(row.name, str)
+    assert isinstance(row.email, str)
+    assert isinstance(row.address, str)
+    assert isinstance(row.product, str)
+    assert isinstance(row.quantity, int)
 
