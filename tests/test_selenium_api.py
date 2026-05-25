@@ -74,17 +74,17 @@ def test_selenium_api(clear_db):
     row = get_order_from_db(order_id)
     assert row is not None
 
-    assert row["name"] == "Tester"
-    assert row["email"] == "tester@example.com"
-    assert row["address"] == "TestingAddress"
-    assert row["product"] == "computer"
-    assert row["quantity"] == 3
+    assert row.name == "Tester"
+    assert row.email == "tester@example.com"
+    assert row.address == "TestingAddress"
+    assert row.product == "computer"
+    assert row.quantity == 3
     
-    assert isinstance(row["id"], int)
-    assert isinstance(row["name"], str)
-    assert isinstance(row["email"], str)
-    assert isinstance(row["address"], str)
-    assert isinstance(row["product"], str)
-    assert isinstance(row["quantity"], int)
+    assert isinstance(row.id, int)
+    assert isinstance(row.name, str)
+    assert isinstance(row.email, str)
+    assert isinstance(row.address, str)
+    assert isinstance(row.product, str)
+    assert isinstance(row.quantity, int)
 
     
