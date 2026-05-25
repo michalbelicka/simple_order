@@ -1,7 +1,6 @@
 from flask import Flask, render_template, request, jsonify
-import sqlite3
-from flask_sqlalchemy import SQLAlchemy
 from pathlib import Path
+from models import db, Order
 
 app = Flask(__name__)
 
@@ -11,17 +10,7 @@ db_path = BASE_DIR / "orders.db"
 app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite:///{db_path}"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
-db = SQLAlchemy(app)
-
-class Order(db.Model):
-    __tablename__ = "orders"
-
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), nullable=False)
-    email = db.Column(db.String(100), nullable=False)
-    address = db.Column(db.String(100), nullable=False)
-    product = db.Column(db.String(100), nullable=False)
-    quantity = db.Column(db.Integer, nullable=False)
+db.init_app(app)
 
 @app.route("/")
 def index():
@@ -51,16 +40,6 @@ def order():
     db.session.add(new_order)
     db.session.commit()
     
-    # conn = sqlite3.connect("orders.db")
-    # c = conn.cursor()
-    # c.execute(
-    #     "INSERT INTO orders (name, email, address, product, quantity)"
-    #     "VALUES (?, ?, ?, ?, ?)",
-    #     (name, email, address, product, quantity)
-    # )
-    # conn.commit()
-    # order_id = c.lastrowid
-    # conn.close()
     return render_template("success.html", order_id=new_order.id)
 
 # Create new order with ID (API)
@@ -167,12 +146,6 @@ def patch_order(order_id):
 
     data = request.get_json() or {}
 
-    # name = data.get("name")
-    # email = data.get("email")
-    # address = data.get("address")
-    # product = data.get("product")
-    # quantity = data.get("quantity")
-
     if not data:
         return jsonify({"error": "No data provided"}), 400
     
@@ -215,7 +188,5 @@ def delete_order(order_id):
     return jsonify({"message": "Order successfully deleted"}), 200
 
 if __name__ == "__main__":
-    with app.app_context():
-        db.create_all()
-
+ 
     app.run(debug=True)

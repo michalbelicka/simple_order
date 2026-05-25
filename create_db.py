@@ -1,21 +1,5 @@
-import sqlite3
+from app import app
+from models import db
 
-def create_db():
-    conn = sqlite3.connect("orders.db")
-    c = conn.cursor()
-
-    c.execute("""
-    CREATE TABLE IF NOT EXISTS orders (
-            id INTEGER PRIMARY KEY,
-            name TEXT,
-            email TEXT,
-            address TEXT,
-            product TEXT,
-            quantity INTEGER      
-     )
-    """)
-    
-    conn.commit()
-    conn.close()
-
-create_db()
+with app.app_context():
+    db.create_all()

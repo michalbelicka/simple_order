@@ -1,16 +1,9 @@
-import sqlite3
-import os
+from models import db, Order
+from app import app
 
 def get_order_from_db(order_id):
     
-    db_path = os.path.join(os.path.dirname(__file__ ), "..", "..", "orders.db")
-    conn = sqlite3.connect(db_path)
-    conn.row_factory = sqlite3.Row
-    cursor = conn.cursor()
+    with app.app_context():
+        return db.session.get(Order, order_id)
 
-    cursor.execute("SELECT * FROM orders WHERE id = ?", (order_id, ))
-    row = cursor.fetchone()
-
-    conn.close()
-    return row
     

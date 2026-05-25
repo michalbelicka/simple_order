@@ -26,18 +26,18 @@ def test_created_order_saved_in_db(created_order):
     row = get_order_from_db(order_id)
     assert row is not None
 
-    assert row["name"] == "TestUser"
-    assert row["email"] == "test_user@example.com"
-    assert row["address"] == "TestAddress"
-    assert row["product"] == "TestProduct"
-    assert row["quantity"] == 2
+    assert row.name == "TestUser"
+    assert row.email == "test_user@example.com"
+    assert row.address == "TestAddress"
+    assert row.product == "TestProduct"
+    assert row.quantity == 2
     
-    assert isinstance(row["id"], int)
-    assert isinstance(row["name"], str)
-    assert isinstance(row["email"], str)
-    assert isinstance(row["address"], str)
-    assert isinstance(row["product"], str)
-    assert isinstance(row["quantity"], int)
+    assert isinstance(row.id, int)
+    assert isinstance(row.name, str)
+    assert isinstance(row.email, str)
+    assert isinstance(row.address, str)
+    assert isinstance(row.product, str)
+    assert isinstance(row.quantity, int)
 
 
 # GET TEST API

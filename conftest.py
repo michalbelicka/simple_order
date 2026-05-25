@@ -1,11 +1,11 @@
-import sqlite3
 import pytest
+from app import app
+from models import db, Order
 
 @pytest.fixture(scope="module", autouse=True)
 def clear_db():
-    conn = sqlite3.connect("orders.db")
-    c = conn.cursor()
-    c.execute("DELETE FROM orders")
 
-    conn.commit()
-    conn.close()
+    with app.app_context():
+        db.session.query(Order).delete()
+        db.session.commit()
+
