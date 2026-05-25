@@ -98,18 +98,18 @@ def test_updated_order_saved_in_db(created_order):
     row = get_order_from_db(order_id)
     assert row is not None
 
-    assert row["name"] == "UpdatedUser"
-    assert row["email"] == "Updated_user@example.com"
-    assert row["address"] == "UpdatedAddress"
-    assert row["product"] == "UpdatedProduct"
-    assert row["quantity"] == 4
+    assert row.name == "UpdatedUser"
+    assert row.email == "Updated_user@example.com"
+    assert row.address == "UpdatedAddress"
+    assert row.product == "UpdatedProduct"
+    assert row.quantity == 4
 
-    assert isinstance(row["id"], int)
-    assert isinstance(row["name"], str)
-    assert isinstance(row["email"], str)
-    assert isinstance(row["address"], str)
-    assert isinstance(row["product"], str)
-    assert isinstance(row["quantity"], int)
+    assert isinstance(row.id, int)
+    assert isinstance(row.name, str)
+    assert isinstance(row.email, str)
+    assert isinstance(row.address, str)
+    assert isinstance(row.product, str)
+    assert isinstance(row.quantity, int)
 
 
 # PATCH TEST API
@@ -144,18 +144,18 @@ def test_patched_order_saved_in_db(created_order):
     row = get_order_from_db(order_id)
     assert row is not None
 
-    assert row["quantity"] == 5
-    assert row["name"] == "UpdatedUser"
-    assert row["email"] == "Updated_user@example.com"
-    assert row["address"] == "UpdatedAddress"
-    assert row["product"] == "UpdatedProduct"
+    assert row.quantity == 5
+    assert row.name == "UpdatedUser"
+    assert row.email == "Updated_user@example.com"
+    assert row.address == "UpdatedAddress"
+    assert row.product == "UpdatedProduct"
 
-    assert isinstance(row["id"], int)
-    assert isinstance(row["quantity"], int)
-    assert isinstance(row["name"], str)
-    assert isinstance(row["email"], str)
-    assert isinstance(row["address"], str)
-    assert isinstance(row["product"], str)
+    assert isinstance(row.id, int)
+    assert isinstance(row.quantity, int)
+    assert isinstance(row.name, str)
+    assert isinstance(row.email, str)
+    assert isinstance(row.address, str)
+    assert isinstance(row.product, str)
 
 
 # DELETE TEST API
