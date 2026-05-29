@@ -187,6 +187,8 @@ def delete_order(order_id):
     
     return jsonify({"message": "Order successfully deleted"}), 200
 
+with app.app_context():
+    db.create_all()
+
 if __name__ == "__main__":
- 
     app.run(debug=True)
