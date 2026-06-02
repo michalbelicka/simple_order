@@ -2,7 +2,9 @@ name: Testing project Flask, Selenium, API
 
 on:
   push:
-    branches: ["main", "sqlalchemy-refactor"]
+    branches:
+      - main
+      - feature/*
   pull_request:
     branches: ["main"]
   schedule:
@@ -12,7 +14,7 @@ permissions:
   contents: read
 
 jobs:
-  flask_selenium_api_tests_run:
+  ci:
     runs-on: ubuntu-latest
 
     steps:
