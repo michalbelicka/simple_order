@@ -41,3 +41,10 @@ jobs:
           python app.py &
           sleep 5
           pytest -v
+
+  cd:
+    needs: ci
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Render deploy
+        run: curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK }}
