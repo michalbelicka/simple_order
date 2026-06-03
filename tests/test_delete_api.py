@@ -32,6 +32,7 @@ def test_delete_order(client):
     res = client.get(f"/api/order/{order_id}")
 
     assert res.status_code == 404
+    assert res.get_json()["error"] == "Order not found"
 
     # ==================================================
     # ASSERT - DELETE (DB)

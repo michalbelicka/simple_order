@@ -2,8 +2,182 @@ import requests
 import pytest
 from tests.helpers.db_utils import get_order_from_db
 
-@pytest.fixture(scope="module")
-def created_order(clear_db):
+# @pytest.fixture(scope="module")
+# def created_order(clear_db):
+#     post_data = {
+#         "name": "TestUser",
+#         "email": "test_user@example.com",
+#         "address": "TestAddress",
+#         "product": "TestProduct",
+#         "quantity": 2
+#     }
+
+#     response = requests.post("http://127.0.0.1:5000/api/order", json=post_data)
+#     assert response.status_code == 201
+#     assert response.json()["message"] == "Order created"
+#     order_id = response.json()["id"]
+#     assert isinstance(order_id, int)
+#     return order_id
+
+
+# def test_created_order_saved_in_db(created_order):
+#     order_id = created_order
+
+#     row = get_order_from_db(order_id)
+#     assert row is not None
+
+#     assert row.name == "TestUser"
+#     assert row.email == "test_user@example.com"
+#     assert row.address == "TestAddress"
+#     assert row.product == "TestProduct"
+#     assert row.quantity == 2
+    
+#     assert isinstance(row.id, int)
+#     assert isinstance(row.name, str)
+#     assert isinstance(row.email, str)
+#     assert isinstance(row.address, str)
+#     assert isinstance(row.product, str)
+#     assert isinstance(row.quantity, int)
+
+
+# # GET TEST API
+# def test_get_order_by_id(created_order):
+#     order_id = created_order
+#     response = requests.get(f"http://127.0.0.1:5000/api/order/{order_id}")
+#     assert response.status_code == 200
+#     order = response.json()
+
+#     assert order["name"] == "TestUser" 
+#     assert order["email"] == "test_user@example.com" 
+#     assert order["address"] == "TestAddress"
+#     assert order["product"] == "TestProduct"
+#     assert order["quantity"] == 2
+    
+#     assert isinstance(order["id"], int)
+#     assert isinstance(order["name"], str)
+#     assert isinstance(order["email"], str)
+#     assert isinstance(order["address"], str)
+#     assert isinstance(order["product"], str)
+#     assert isinstance(order["quantity"], int)    
+    
+
+# # PUT TEST API
+# def test_put_order_by_id(created_order):
+#     order_id = created_order
+#     update_data = {
+#         "name": "UpdatedUser",
+#         "email": "Updated_user@example.com",
+#         "address": "UpdatedAddress",
+#         "product": "UpdatedProduct",
+#         "quantity": 4
+#     }
+#     response_put = requests.put(f"http://127.0.0.1:5000/api/order/{order_id}", json=update_data)
+#     assert response_put.status_code == 200
+#     assert response_put.json()["message"] == "order updated"
+
+#     response_get = requests.get(f"http://127.0.0.1:5000/api/order/{order_id}")
+#     updated_order = response_get.json()
+
+#     assert updated_order["name"] == "UpdatedUser"
+#     assert updated_order["email"] == "Updated_user@example.com"
+#     assert updated_order["address"] == "UpdatedAddress"
+#     assert updated_order["product"] == "UpdatedProduct"
+#     assert updated_order["quantity"] == 4
+
+#     assert isinstance(updated_order["id"], int)
+#     assert isinstance(updated_order["name"], str)
+#     assert isinstance(updated_order["email"], str)
+#     assert isinstance(updated_order["address"], str)
+#     assert isinstance(updated_order["product"], str)
+#     assert isinstance(updated_order["quantity"], int)
+
+
+# def test_updated_order_saved_in_db(created_order):
+#     order_id = created_order
+
+#     row = get_order_from_db(order_id)
+#     assert row is not None
+
+#     assert row.name == "UpdatedUser"
+#     assert row.email == "Updated_user@example.com"
+#     assert row.address == "UpdatedAddress"
+#     assert row.product == "UpdatedProduct"
+#     assert row.quantity == 4
+
+#     assert isinstance(row.id, int)
+#     assert isinstance(row.name, str)
+#     assert isinstance(row.email, str)
+#     assert isinstance(row.address, str)
+#     assert isinstance(row.product, str)
+#     assert isinstance(row.quantity, int)
+
+
+# # PATCH TEST API
+# def test_patch_order_by_id(created_order):
+#     order_id = created_order
+#     patch_data = {
+#         "quantity": 5
+#     }
+#     response_patch = requests.patch(f"http://127.0.0.1:5000/api/order/{order_id}", json=patch_data)
+#     assert response_patch.status_code == 200
+#     assert response_patch.json()["message"] == "Order updated successfully"
+
+#     patch_order = requests.get(f"http://127.0.0.1:5000/api/order/{order_id}").json()
+
+#     assert patch_order["quantity"] == 5
+#     assert patch_order["name"] == "UpdatedUser"
+#     assert patch_order["email"] == "Updated_user@example.com"
+#     assert patch_order["address"] == "UpdatedAddress"
+#     assert patch_order["product"] == "UpdatedProduct"
+
+#     assert isinstance(patch_order["id"], int)
+#     assert isinstance(patch_order["quantity"], int)
+#     assert isinstance(patch_order["name"], str)
+#     assert isinstance(patch_order["email"], str)
+#     assert isinstance(patch_order["address"], str)
+#     assert isinstance(patch_order["product"], str)
+
+
+# def test_patched_order_saved_in_db(created_order):
+#     order_id = created_order
+
+#     row = get_order_from_db(order_id)
+#     assert row is not None
+
+#     assert row.quantity == 5
+#     assert row.name == "UpdatedUser"
+#     assert row.email == "Updated_user@example.com"
+#     assert row.address == "UpdatedAddress"
+#     assert row.product == "UpdatedProduct"
+
+#     assert isinstance(row.id, int)
+#     assert isinstance(row.quantity, int)
+#     assert isinstance(row.name, str)
+#     assert isinstance(row.email, str)
+#     assert isinstance(row.address, str)
+#     assert isinstance(row.product, str)
+
+
+# # DELETE TEST API
+# def test_delete_order_by_id(created_order):
+#     order_id = created_order
+#     response_del = requests.delete(f"http://127.0.0.1:5000/api/order/{order_id}")
+#     assert response_del.status_code == 200
+#     assert response_del.json()["message"] == "Order successfully deleted"
+#     response_get = requests.get(f"http://127.0.0.1:5000/api/order/{order_id}")
+#     assert response_get.status_code == 404
+
+
+# def test_deleted_order_removed_from_db(created_order):
+#     order_id = created_order
+#     row = get_order_from_db(order_id)
+
+#     assert row is None
+
+def test_order_crud_lifecycle(client):
+    # ==================================================
+    # CREATE - POST
+    # ==================================================
     post_data = {
         "name": "TestUser",
         "email": "test_user@example.com",
@@ -12,164 +186,122 @@ def created_order(clear_db):
         "quantity": 2
     }
 
-    response = requests.post("http://127.0.0.1:5000/api/order", json=post_data)
-    assert response.status_code == 201
-    assert response.json()["message"] == "Order created"
-    order_id = response.json()["id"]
-    assert isinstance(order_id, int)
-    return order_id
+    res = client.post("/api/order", json=post_data)
 
+    assert res.status_code == 201
 
-def test_created_order_saved_in_db(created_order):
-    order_id = created_order
+    order_id = res.get_json()["id"]
 
+    # DB check - CREATE
     row = get_order_from_db(order_id)
-    assert row is not None
 
+    assert row is not None
     assert row.name == "TestUser"
     assert row.email == "test_user@example.com"
     assert row.address == "TestAddress"
     assert row.product == "TestProduct"
     assert row.quantity == 2
-    
-    assert isinstance(row.id, int)
-    assert isinstance(row.name, str)
-    assert isinstance(row.email, str)
-    assert isinstance(row.address, str)
-    assert isinstance(row.product, str)
-    assert isinstance(row.quantity, int)
 
+    # ==================================================
+    # READ - GET
+    # ==================================================
+    res = client.get(f"/api/order/{order_id}")
 
-# GET TEST API
-def test_get_order_by_id(created_order):
-    order_id = created_order
-    response = requests.get(f"http://127.0.0.1:5000/api/order/{order_id}")
-    assert response.status_code == 200
-    order = response.json()
+    assert res.status_code == 200
 
-    assert order["name"] == "TestUser" 
-    assert order["email"] == "test_user@example.com" 
+    order = res.get_json()
+
+    assert order["name"] == "TestUser"
+    assert order["email"] == "test_user@example.com"
     assert order["address"] == "TestAddress"
     assert order["product"] == "TestProduct"
     assert order["quantity"] == 2
-    
-    assert isinstance(order["id"], int)
-    assert isinstance(order["name"], str)
-    assert isinstance(order["email"], str)
-    assert isinstance(order["address"], str)
-    assert isinstance(order["product"], str)
-    assert isinstance(order["quantity"], int)    
-    
 
-# PUT TEST API
-def test_put_order_by_id(created_order):
-    order_id = created_order
-    update_data = {
+    # ==================================================
+    # UPDATE - PUT
+    # ==================================================
+    put_data = {
         "name": "UpdatedUser",
-        "email": "Updated_user@example.com",
+        "email": "updated_user@example.com",
         "address": "UpdatedAddress",
         "product": "UpdatedProduct",
         "quantity": 4
     }
-    response_put = requests.put(f"http://127.0.0.1:5000/api/order/{order_id}", json=update_data)
-    assert response_put.status_code == 200
-    assert response_put.json()["message"] == "order updated"
 
-    response_get = requests.get(f"http://127.0.0.1:5000/api/order/{order_id}")
-    updated_order = response_get.json()
+    res = client.put(f"/api/order/{order_id}", json=put_data)
 
-    assert updated_order["name"] == "UpdatedUser"
-    assert updated_order["email"] == "Updated_user@example.com"
-    assert updated_order["address"] == "UpdatedAddress"
-    assert updated_order["product"] == "UpdatedProduct"
-    assert updated_order["quantity"] == 4
+    assert res.status_code == 200
+    assert res.get_json()["message"] == "order updated"
 
-    assert isinstance(updated_order["id"], int)
-    assert isinstance(updated_order["name"], str)
-    assert isinstance(updated_order["email"], str)
-    assert isinstance(updated_order["address"], str)
-    assert isinstance(updated_order["product"], str)
-    assert isinstance(updated_order["quantity"], int)
+    # API check - PUT
+    res = client.get(f"/api/order/{order_id}")
 
+    updated = res.get_json()
 
-def test_updated_order_saved_in_db(created_order):
-    order_id = created_order
+    assert updated["name"] == "UpdatedUser"
+    assert updated["email"] == "updated_user@example.com"
+    assert updated["address"] == "UpdatedAddress"
+    assert updated["product"] == "UpdatedProduct"
+    assert updated["quantity"] == 4
 
+    # DB check - PUT
     row = get_order_from_db(order_id)
-    assert row is not None
 
+    assert row is not None
     assert row.name == "UpdatedUser"
-    assert row.email == "Updated_user@example.com"
+    assert row.email == "updated_user@example.com"
     assert row.address == "UpdatedAddress"
     assert row.product == "UpdatedProduct"
     assert row.quantity == 4
 
-    assert isinstance(row.id, int)
-    assert isinstance(row.name, str)
-    assert isinstance(row.email, str)
-    assert isinstance(row.address, str)
-    assert isinstance(row.product, str)
-    assert isinstance(row.quantity, int)
-
-
-# PATCH TEST API
-def test_patch_order_by_id(created_order):
-    order_id = created_order
+    # ==================================================
+    # PARTIAL UPDATE - PATCH
+    # ==================================================
     patch_data = {
         "quantity": 5
     }
-    response_patch = requests.patch(f"http://127.0.0.1:5000/api/order/{order_id}", json=patch_data)
-    assert response_patch.status_code == 200
-    assert response_patch.json()["message"] == "Order updated successfully"
 
-    patch_order = requests.get(f"http://127.0.0.1:5000/api/order/{order_id}").json()
+    res = client.patch(f"/api/order/{order_id}", json=patch_data)
 
-    assert patch_order["quantity"] == 5
-    assert patch_order["name"] == "UpdatedUser"
-    assert patch_order["email"] == "Updated_user@example.com"
-    assert patch_order["address"] == "UpdatedAddress"
-    assert patch_order["product"] == "UpdatedProduct"
+    assert res.status_code == 200
+    assert res.get_json()["message"] == "Order updated successfully"
 
-    assert isinstance(patch_order["id"], int)
-    assert isinstance(patch_order["quantity"], int)
-    assert isinstance(patch_order["name"], str)
-    assert isinstance(patch_order["email"], str)
-    assert isinstance(patch_order["address"], str)
-    assert isinstance(patch_order["product"], str)
+    # API check - PATCH
+    res = client.get(f"/api/order/{order_id}")
 
+    patched = res.get_json()
 
-def test_patched_order_saved_in_db(created_order):
-    order_id = created_order
+    assert patched["quantity"] == 5
+    assert patched["name"] == "UpdatedUser"
+    assert patched["email"] == "updated_user@example.com"
+    assert patched["address"] == "UpdatedAddress"
+    assert patched["product"] == "UpdatedProduct"
 
+    # DB check - PATCH
     row = get_order_from_db(order_id)
-    assert row is not None
 
+    assert row is not None
     assert row.quantity == 5
     assert row.name == "UpdatedUser"
-    assert row.email == "Updated_user@example.com"
+    assert row.email == "updated_user@example.com"
     assert row.address == "UpdatedAddress"
     assert row.product == "UpdatedProduct"
 
-    assert isinstance(row.id, int)
-    assert isinstance(row.quantity, int)
-    assert isinstance(row.name, str)
-    assert isinstance(row.email, str)
-    assert isinstance(row.address, str)
-    assert isinstance(row.product, str)
+    # ==================================================
+    # DELETE
+    # ==================================================
+    res = client.delete(f"/api/order/{order_id}")
 
+    assert res.status_code == 200
+    assert res.get_json()["message"] == "Order successfully deleted"
 
-# DELETE TEST API
-def test_delete_order_by_id(created_order):
-    order_id = created_order
-    response_del = requests.delete(f"http://127.0.0.1:5000/api/order/{order_id}")
-    assert response_del.status_code == 200
-    assert response_del.json()["message"] == "Order successfully deleted"
-    response_get = requests.get(f"http://127.0.0.1:5000/api/order/{order_id}")
-    assert response_get.status_code == 404
+    # API check - DELETE
+    res = client.get(f"/api/order/{order_id}")
 
+    assert res.status_code == 404
+    assert res.get_json()["error"] == "Order not found"
 
-def test_deleted_order_removed_from_db(created_order):
-    order_id = created_order
+    # DB check - DELETE
     row = get_order_from_db(order_id)
 
     assert row is None
