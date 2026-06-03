@@ -24,14 +24,14 @@ test_data = [
     )
 ]
 @pytest.mark.parametrize("payload, expected_payload, expected_status", test_data)
-def test_post_api_order(clear_db, payload, expected_payload, expected_status):
+def test_post_api_order(client, payload, expected_payload, expected_status):
 
-    post_response = requests.post("http://127.0.0.1:5000/api/order", json=payload)
-    assert post_response.status_code == expected_status
+    post_res = client.post(f"/api/order", json=payload)
+    assert post_res.status_code == expected_status
     
     if expected_status == 201:
-        get_response = requests.get("http://127.0.0.1:5000/api/orders")
-        order = get_response.json()
+        get_response = client.get(f"/api/orders")
+        order = get_response.get_json()
         assert get_response.status_code == 200
         for key, value in expected_payload.items():
             assert order[-1][key] == value 
