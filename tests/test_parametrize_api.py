@@ -1,5 +1,4 @@
 import pytest
-import requests
 
 test_data = [
     (
@@ -30,9 +29,12 @@ def test_post_api_order(client, payload, expected_payload, expected_status):
     assert post_res.status_code == expected_status
     
     if expected_status == 201:
+
         get_response = client.get(f"/api/orders")
         order = get_response.get_json()
+
         assert get_response.status_code == 200
+        
         for key, value in expected_payload.items():
             assert order[-1][key] == value 
         
