@@ -1,14 +1,7 @@
 import pytest
 from app import app
-from models import db, Order
+from models import db
 from pathlib import Path
-
-# @pytest.fixture(scope="module", autouse=True)
-# def clear_db():
-
-#     with app.app_context():
-#         db.session.query(Order).delete()
-#         db.session.commit()
 
 BASE_DIR = Path(__file__).resolve().parent
 db_path = BASE_DIR / "tests" / "test.db"
