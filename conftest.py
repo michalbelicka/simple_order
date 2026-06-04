@@ -1,16 +1,12 @@
 import pytest
 from app import app
 from models import db
-from pathlib import Path
-
-BASE_DIR = Path(__file__).resolve().parent
-db_path = BASE_DIR / "tests" / "test.db"
 
 @pytest.fixture
 def client():
 
     app.config["TESTING"] = True
-    app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite:///{db_path}"
+    app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite:///:memory:"
 
     with app.app_context():
         db.drop_all()
