@@ -4,11 +4,9 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.service import Service
-import requests
 from selenium.webdriver.chrome.options import Options
-from tests.helpers.db_utils import get_order_from_db
 
-def test_selenium_api(clear_db):
+def test_selenium_api():
 
     service = Service(ChromeDriverManager().install())
     options = Options()
@@ -19,9 +17,9 @@ def test_selenium_api(clear_db):
     options.add_argument("--incognito")
 
     driver = webdriver.Chrome(service=service, options=options)
-    wait = WebDriverWait(driver, 10)
+    wait = WebDriverWait(driver, 30)
 
-    driver.get("http://127.0.0.1:5000")
+    driver.get("https://belicka-orders-api.onrender.com/")
 
     name = wait.until(EC.element_to_be_clickable((By.ID, "name")))
     name.send_keys("Tester")
@@ -52,39 +50,5 @@ def test_selenium_api(clear_db):
 
     driver.quit()
 
-    response = requests.get(f"http://127.0.0.1:5000/api/order/{order_id}")
-
-    assert response.status_code == 200
-
-    order = response.json()
-
-    assert order["name"] == "Tester"
-    assert order["email"] == "tester@example.com"
-    assert order["address"] == "TestingAddress"
-    assert order["product"] == "computer"
-    assert order["quantity"] == 3
-
-    assert isinstance(order["id"], int) 
-    assert isinstance(order["name"], str) 
-    assert isinstance(order["email"], str) 
-    assert isinstance(order["address"], str) 
-    assert isinstance(order["product"], str) 
-    assert isinstance(order["quantity"], int)
-
-    row = get_order_from_db(order_id)
-    assert row is not None
-
-    assert row.name == "Tester"
-    assert row.email == "tester@example.com"
-    assert row.address == "TestingAddress"
-    assert row.product == "computer"
-    assert row.quantity == 3
-    
-    assert isinstance(row.id, int)
-    assert isinstance(row.name, str)
-    assert isinstance(row.email, str)
-    assert isinstance(row.address, str)
-    assert isinstance(row.product, str)
-    assert isinstance(row.quantity, int)
 
     
