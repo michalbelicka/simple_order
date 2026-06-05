@@ -4,10 +4,12 @@ from models import db, Order
 
 app = Flask(__name__)
 
-if "DATABASE_URL" not in os.environ:
+db_url = os.getenv("DATABASE_URL")
+
+if not db_url:
     raise RuntimeError("DATABASE_URL is not set")
 
-app.config["SQLALCHEMY_DATABASE_URI"] = os.environ["DATABASE_URL"]
+app.config["SQLALCHEMY_DATABASE_URI"] = db_url
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db.init_app(app)

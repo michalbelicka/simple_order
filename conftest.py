@@ -1,3 +1,5 @@
+import os
+os.environ["DATABASE_URL"] = "sqlite:///:memory:"
 import pytest
 from app import app
 from models import db
@@ -6,7 +8,6 @@ from models import db
 def client():
 
     app.config["TESTING"] = True
-    app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite:///:memory:"
 
     with app.app_context():
         db.drop_all()
