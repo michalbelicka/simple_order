@@ -1,13 +1,15 @@
 from flask import Flask, render_template, request, jsonify
-from pathlib import Path
+import os
 from models import db, Order
 
 app = Flask(__name__)
 
-BASE_DIR = Path(__file__).resolve().parent
-db_path = BASE_DIR / "orders.db"
+db_url = os.getenv("DATABASE_URL")
 
-app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite:///{db_path}"
+if not db_url:
+    raise RuntimeError("DATABASE_URL is not set")
+
+app.config["SQLALCHEMY_DATABASE_URI"] = db_url
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db.init_app(app)
