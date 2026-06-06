@@ -2,10 +2,21 @@
 
 ## Overview
 
-This is a demo project created to learn and practice automated testing using Flask, HTML, API testing with pytest, and browser testing with Selenium.  
-It contains a simple order form built with Flask and HTML, stores data in a local SQLite database, and includes automated tests for both API endpoints and browser interactions.
+**Live Application:** https://belicka-orders-api.onrender.com
 
-The main goal of this project is to demonstrate practical skills in automated testing, backend development, and CI pipelines, with a focus on quality assurance processes.
+This is a test automation project focused on API testing, UI testing, and backend behavior using Flask, pytest, and Selenium.
+
+The project tests a simple order management system that exposes both an HTML form and a REST API.
+Automated tests cover CRUD operations and verify core backend behavior and responses.
+
+API tests are implemented using pytest and Flask test client. They verify API endpoints by validating responses for CRUD operations (create, read, update, delete) and basic input checks.
+Tests use an in-memory SQLite database to ensure isolation and independent test runs.
+
+Selenium tests the deployed application on Render through a real browser. The test simulates a user filling out the order form and verifies that an order is successfully created by checking the returned order ID.
+
+The application uses a PostgreSQL database hosted on Render for persistent data storage.
+
+The main goal of this project is to demonstrate practical skills in automated testing, API testing, backend development, and CI/CD workflows.
 
 ---
 
@@ -13,30 +24,31 @@ The main goal of this project is to demonstrate practical skills in automated te
 
 - Python
 - Flask
-- SQLite
-- requests
+- HTML
+- SQLAlchemy (ORM)
+- PostgreSQL (Render)
 - pytest
 - Selenium
-- GitHub Actions
+- GitHub Actions (CI/CD)
 
 ---
 
 ## Tests Included
 
-- **Standalone CRUD test**: covers full lifecycle of an order (POST → GET → PUT → PATCH → DELETE) using fixtures
-- **Database verification tests**: check that data is correctly saved, updated, patched, and deleted in `orders.db`
-- **Modular API tests**: independent tests for POST, GET, PUT, PATCH, and DELETE operations
-- **Combined Selenium + API tests**: Selenium submits order form and API verifies data in the database
-- **Parameterized API tests**: testing with multiple input values
+- CRUD API tests
+- Individual API endpoint tests
+- Database behavior tests
+- Parameterized API tests
+- Selenium UI test against the deployed Render application
 
 ---
 
-## CI Pipeline
+## CI/CD Pipeline
 
-- Installs dependencies
-- Runs linting with flake8
-- Starts Flask server
-- Executes automated tests on push, pull request, or scheduled time
+- Installs project dependencies
+- Runs code quality checks with flake8
+- Executes automated tests on push, pull request, and scheduled runs
+- Automatically deploys the application to Render after successful CI pipeline execution
 
 ---
 
@@ -53,36 +65,30 @@ To run tests, follow these steps:
 3. Install dependencies:  
    `pip install -r requirements.txt`
 
-4. Create the database:  
-   `python create_db.py`
-
-5. Start the Flask server:  
-   `python app.py`
-
-6. Run the tests:  
+4. Run the tests:  
    `pytest -v`
 
 ---
 
 ## What I Learned
 
-While working on this project, I followed a step-by-step approach to develop my skills:
+While working on this project, I improved my skills in backend development and test automation through a step-by-step approach:
 
-- Learned **HTML basics** to create and structure the order form
-- Learned the basics of **Flask** to create a simple backend application
-- Created and integrated a **SQLite database** to store order data
-- Implemented **pytest fixtures** for setup and cleanup between tests
-- Developed **automated API tests** for POST, GET, PUT, PATCH, and DELETE methods
-- Combined **Selenium and API testing** for end-to-end scenarios
-- Set up a **CI pipeline with GitHub Actions** to automate testing
+- Learned **HTML basics** to build a simple order form interface
+- Learned the fundamentals of **Flask** for building REST APIs and backend logic
+- Worked with **SQLAlchemy and PostgreSQL** for persistent data storage
+- Implemented **pytest-based API testing** for CRUD operations (POST, GET, PUT, PATCH, DELETE)
+- Used **Flask test client** for fast and isolated API testing without external HTTP calls
+- Built **Selenium UI tests** to simulate real user interactions on a deployed application
+- Set up a **CI/CD pipeline using GitHub Actions and Render** for automated testing and deployment
 
 ---
 
 ## Future Improvements
 
-- Add **basic validation criteria** in the Flask backend (for example, checks for name format, valid email, positive quantity)
-- Once validations are in place, add **edge case and negative tests** to verify how the system handles invalid or missing input
-- Include **screenshots or logs** for Selenium tests for easier debugging
-- Create **manual test cases** documenting expected behavior of the order form
+- Add more robust **input validation in the Flask backend** (e.g. name constraints, quantity rules)
+- Extend test coverage with additional **edge case and negative scenarios** for invalid inputs
+- Improve **Selenium testing output** by adding screenshots or logs for better debugging
+- Add **formal manual test cases** describing expected behavior of the application
 - Improve the front-end design to make the order form more user-friendly and visually appealing
-- Improve **README and documentation** with examples and test instructions
+- Add **Docker support** to containerize the application and simplify deployment
