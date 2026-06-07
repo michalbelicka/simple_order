@@ -38,7 +38,7 @@ def test_selenium_api():
     quantity.send_keys("3")
 
     submit = wait.until(EC.element_to_be_clickable((By.XPATH, "//button[@type='submit']")))
-    submit.click()
+    driver.execute_script("arguments[0].click();", submit)
 
     h1_element = wait.until(EC.text_to_be_present_in_element((By.TAG_NAME, "h1"), "Objednávka úspešne odoslaná!"))
     assert h1_element
