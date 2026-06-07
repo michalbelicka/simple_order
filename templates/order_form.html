@@ -1,30 +1,58 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sk">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Objednávkový formulár</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
-    <h1>Objednávkový formulár</h1>
 
-  <form action="/order" method="post">
-    <label for="name">Meno:</label><br>
-    <input type="text" id="name" name="name"><br><br>
+<body style="background: linear-gradient(135deg, #eaf4ff, #ffffff);">
 
-    <label for="email">Email:</label><br>
-    <input type="email" id="email" name="email"><br><br>
+<div class="container d-flex justify-content-center align-items-center min-vh-100">
 
-    <label for="address">Adresa:</label><br>
-    <input type="text" id="address" name="address"><br><br>
+    <div class="card shadow-lg p-4" style="width: 100%; max-width: 500px; border-radius: 15px;">
 
-    <label for="product">Produkt:</label><br>
-    <input type="text" id="product" name="product"><br><br>
+        <h3 class="text-center mb-4">Objednávkový formulár</h3>
 
-    <label for="quantity">Množstvo:</label><br>
-    <input type="number" id="quantity" name="quantity" value="1"><br><br>
+        <form action="/order" method="post">
 
-    <button type="submit">Odoslať</button>
-  </form>
+            <div class="mb-3">
+                <label class="form-label">Meno</label>
+                <input type="text" name="name" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Email</label>
+                <input type="email" name="email" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Adresa</label>
+                <input type="text" name="address" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Produkt</label>
+                <input type="text" name="product" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Množstvo</label>
+                <input type="number" name="quantity" class="form-control" value="1" min="1" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100">
+                Odoslať objednávku
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
 </body>
 </html>
