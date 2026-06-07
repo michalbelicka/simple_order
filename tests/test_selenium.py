@@ -17,7 +17,7 @@ def test_selenium_api():
     options.add_argument("--incognito")
 
     driver = webdriver.Chrome(service=service, options=options)
-    wait = WebDriverWait(driver, 120)
+    wait = WebDriverWait(driver, 60)
 
     driver.get("https://belicka-orders-api.onrender.com/")
 
@@ -40,14 +40,20 @@ def test_selenium_api():
     submit = wait.until(EC.element_to_be_clickable((By.XPATH, "//button[@type='submit']")))
     driver.execute_script("arguments[0].click();", submit)
 
-    h1_element = wait.until(EC.text_to_be_present_in_element((By.TAG_NAME, "h1"), "Objednávka úspešne odoslaná!"))
-    assert h1_element
+    h3_element = wait.until(EC.text_to_be_present_in_element((By.TAG_NAME, "h3"), "Objednávka úspešne odoslaná!"))
+    assert h3_element
 
-    order_id_elem = wait.until(EC.visibility_of_element_located((By.ID, "order_id")))
+    order_id_elem = wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, "[data-testid='order-id']")))
     order_id = order_id_elem.text
 
-    assert order_id != ""
+    assert order_id.startswith("#")
+    assert order_id[1:].isdigit()
 
+    new_order_link = wait.until(EC.element_to_be_clickable((By.LINK_TEXT, "Vytvoriť novú objednávku")))
+    new_order_link.click()
+
+    wait.until(EC.visibility_of_element_located((By.ID, "name")))
+    
     driver.quit()
 
 
