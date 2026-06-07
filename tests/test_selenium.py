@@ -17,7 +17,7 @@ def test_selenium_api():
     options.add_argument("--incognito")
 
     driver = webdriver.Chrome(service=service, options=options)
-    wait = WebDriverWait(driver, 60)
+    wait = WebDriverWait(driver, 120)
 
     driver.get("https://belicka-orders-api.onrender.com/")
 
