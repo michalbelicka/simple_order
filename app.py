@@ -6,6 +6,8 @@ app = Flask(__name__)
 
 db_url = os.getenv("DATABASE_URL")
 
+print(f"db_url: {db_url}")
+
 if not db_url:
     raise RuntimeError("DATABASE_URL is not set")
 
