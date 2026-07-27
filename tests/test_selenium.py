@@ -5,6 +5,12 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
+import os
+
+BASE_URL = os.getenv(
+    "SELENIUM_BASE_URL",
+    "https://belicka-orders-api.onrender.com/"
+)
 
 def test_selenium_api():
 
@@ -19,7 +25,7 @@ def test_selenium_api():
     driver = webdriver.Chrome(service=service, options=options)
     wait = WebDriverWait(driver, 60)
 
-    driver.get("https://belicka-orders-api.onrender.com/")
+    driver.get(BASE_URL)
 
     name = wait.until(EC.element_to_be_clickable((By.ID, "name")))
     name.send_keys("Tester")
